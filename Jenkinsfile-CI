@@ -1,0 +1,22 @@
+pipeline {
+    agent any
+    stages{
+       stage('checkout') {
+           steps{
+           checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/jenkins-docs/simple-java-maven-app.git']]])
+           }
+       }
+       stage('build') {
+           steps {
+           sh 'mvn package'
+           }
+       }
+       stage('upload to nexus'){
+            steps {
+            nexusArtifactUploader artifacts: [[artifactId: 'devops', classifier: '', file: 'target/my-app-1.0-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus', groupId: 'ram', nexusUrl: '3.108.185.1:8081/nexus', nexusVersion: 'nexus2', protocol: 'http', repository: 'java', version: '1.0.$BUILD_NUMBER'
+            }
+        }
+       
+    }
+}
+
