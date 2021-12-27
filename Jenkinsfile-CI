@@ -15,7 +15,7 @@ pipeline {
             steps {
             nexusArtifactUploader artifacts: [[artifactId: 'devops', classifier: '', file: 'target/my-app-1.0-SNAPSHOT.jar', type: 'jar']], credentialsId: 'nexus', groupId: 'ram', nexusUrl: '3.108.185.1:8081/nexus', nexusVersion: 'nexus2', protocol: 'http', repository: 'java', version: '1.0.$BUILD_NUMBER'
             }
-        }
+        
        
     }
 }
